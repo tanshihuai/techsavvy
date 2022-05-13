@@ -28,6 +28,7 @@ public class RestaurantManagerUI extends JFrame
     DefaultTableModel model;
     private int selectedRow;
     ManagerController mc;
+    private String username;
 
     public RestaurantManagerUI(String username)
     {
@@ -69,7 +70,7 @@ public class RestaurantManagerUI extends JFrame
             }
         });
 
-        JButton refreshButton = new JButton("Refresh");
+        /*JButton refreshButton = new JButton("Refresh");
         refreshButton.setBounds(250, 250, 100, 20);
         menuFrame.getContentPane().add(refreshButton);
 
@@ -80,7 +81,7 @@ public class RestaurantManagerUI extends JFrame
                 new RestaurantManagerUI(username);
                 menuFrame.dispose();
             }
-        });
+        });*/
 
         //table
         model = new DefaultTableModel();
@@ -105,6 +106,7 @@ public class RestaurantManagerUI extends JFrame
             if (e.getSource () == createButton)
             {
                 createItemUI();
+                menuFrame.dispose();
             }
         });
 
@@ -117,7 +119,7 @@ public class RestaurantManagerUI extends JFrame
                 {
                     System.out.println(selectedRow);
                     updateItemUI();
-                    //model.fireTableDataChanged();
+                    menuFrame.dispose();
                 }
                 else
                 {
@@ -206,7 +208,8 @@ public class RestaurantManagerUI extends JFrame
                 String itemName = itemName3.getText();
                 double itemPrice = Double.parseDouble(itemPrice3.getText());
                 mc.updateItem(itemNumber, itemName, itemPrice);
-                model.fireTableDataChanged();
+                updateFrame.dispose();
+                new RestaurantManagerUI(username);
 
                 JOptionPane.showMessageDialog(null, "Selected row updated successfully");
 
@@ -275,7 +278,8 @@ public class RestaurantManagerUI extends JFrame
                 {
                     JOptionPane.showMessageDialog(null, "Item already exists");
                 }
-
+                createFrame.dispose();
+                new RestaurantManagerUI(username);
             }
 
         });
