@@ -1,4 +1,7 @@
 package project314;
+
+import javax.swing.*;
+
 public class LoginController
 {
     public boolean isFilled(String username, String password)
@@ -21,6 +24,11 @@ public class LoginController
     {
         String role = new Users().checkRole(username);
         return role;
+    }
+
+    public void getItem(JTable menuList)
+    {
+        new Menu().getItem(menuList);
     }
 
 }

@@ -44,7 +44,7 @@ public class Users
         try
         {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            c = DriverManager.getConnection("jdbc:mysql://localhost/project314","root","abdulhameed13");
+            c = DriverManager.getConnection("jdbc:mysql://localhost/project314","root","mysql123");
             ps = c.prepareStatement("Select password From users Where username = ?");
             ps.setString(1, username);
             rs = ps.executeQuery();
@@ -74,7 +74,7 @@ public class Users
         try
         {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            c = DriverManager.getConnection("jdbc:mysql://localhost/project314","root","abdulhameed13");
+            c = DriverManager.getConnection("jdbc:mysql://localhost/project314","root","mysql123");
             ps = c.prepareStatement("Select username from users where username = ? AND password = ?");
             ps.setString(1, username);
             ps.setString(2, password);
@@ -126,7 +126,7 @@ public class Users
         try
         {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            c = DriverManager.getConnection("jdbc:mysql://localhost/project314","root","abdulhameed13");
+            c = DriverManager.getConnection("jdbc:mysql://localhost/project314","root","mysql123");
             ps = c.prepareStatement("Select Role from users where username = ?");
             ps.setString(1, username);
             rs = ps.executeQuery();

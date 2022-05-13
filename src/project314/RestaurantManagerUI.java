@@ -4,13 +4,15 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.BreakIterator;
+import java.text.SimpleDateFormat;
 
 //main class
 public class RestaurantManagerUI extends JFrame
 {
     //variables
-    //private javax.swing.JTable jt1;
     JFrame menuFrame;
     JFrame updateFrame;
     JFrame createFrame;
@@ -22,8 +24,10 @@ public class RestaurantManagerUI extends JFrame
     JButton deleteButton;
     JButton logoutButton;
     JTable menuList;
-    //Container contain;
     JTextField searchField;
+    DefaultTableModel model;
+    private int selectedRow;
+    ManagerController mc;
 
     public RestaurantManagerUI(String username)
     {
@@ -40,54 +44,62 @@ public class RestaurantManagerUI extends JFrame
         menuFrame.getContentPane().setLayout(null);
         menuFrame.setVisible(true);
 
-        //search box
-        /*searchField = new JTextField();
-        searchField.setBounds(145, 121, 131, 20);
-        menuFrame.getContentPane().add(searchField);
-        searchField.setColumns(10);*/
-
-        //create, update and delete buttons
-        viewButton = new JButton("View Menu");
-        viewButton.setBounds(300, 230, 150, 20);
-        menuFrame.getContentPane().add(viewButton);
-
         createButton = new JButton("Create new items");
-        createButton.setBounds(300, 200, 150, 20);
+        createButton.setBounds(250, 370, 100, 20);
         menuFrame.getContentPane().add(createButton);
 
         updateButton = new JButton("Update");
-        updateButton.setBounds(300, 170, 150, 20);
+        updateButton.setBounds(250, 340, 100, 20);
         menuFrame.getContentPane().add(updateButton);
 
         deleteButton = new JButton("Delete");
-        deleteButton.setBounds(300, 140, 150, 20);
+        deleteButton.setBounds(250, 310, 100, 20);
         menuFrame.getContentPane().add(deleteButton);
 
         logoutButton = new JButton("Logout");
-        logoutButton.setBounds(300, 110, 150, 20);
+        logoutButton.setBounds(250, 280, 100, 20);
         menuFrame.getContentPane().add(logoutButton);
 
+        logoutButton.addActionListener (e ->
+        {
+            if (e.getSource () == logoutButton)
+            {
+                new LoginUI();
+                menuFrame.dispose();
+            }
+        });
+
+        JButton refreshButton = new JButton("Refresh");
+        refreshButton.setBounds(250, 250, 100, 20);
+        menuFrame.getContentPane().add(refreshButton);
+
+        refreshButton.addActionListener (e ->
+        {
+            if (e.getSource () == refreshButton)
+            {
+                new RestaurantManagerUI(username);
+                menuFrame.dispose();
+            }
+        });
+
         //table
-
-        /*String data[][] = {{"F1", "Nasi Lemak", "$2.00"},
-                           {"F2", "Chicken Rice", "$3.00" }};
-        String column[] = {"No.", "Name", "Price"};
-        menuList = new JTable((TableModel) mc.viewItem());
+        model = new DefaultTableModel();
+        model.addColumn("itemNumber");
+        model.addColumn("itemName");
+        model.addColumn("itemPrice");
+        menuList = new JTable(model);
         menuList.setBounds(30,40,200,300);
-
+        menuList.setRowSelectionAllowed(true);
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(10, 64, 366, 107);
         menuFrame.getContentPane().add(scrollPane);
-        scrollPane.setViewportView(menuList);*/
+        mc = new ManagerController();
+        mc.getItem(menuList);
+        scrollPane.setViewportView(menuList);
+
+
 
         //actionListener for the buttons
-        viewButton.addActionListener (e ->
-        {
-            if (e.getSource () == viewButton)
-            {
-                viewMenuUI();
-            }
-        });
         createButton.addActionListener (e ->
         {
             if (e.getSource () == createButton)
@@ -100,25 +112,42 @@ public class RestaurantManagerUI extends JFrame
         {
             if (e.getSource () == updateButton)
             {
-                updateItemUI();
+                selectedRow = menuList.getSelectedRow();
+                if(selectedRow != -1)
+                {
+                    System.out.println(selectedRow);
+                    updateItemUI();
+                    //model.fireTableDataChanged();
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Please select a row to update");
+                }
             }
         });
+
         deleteButton.addActionListener (e ->
         {
             if (e.getSource () == deleteButton)
             {
-                deleteItemUI();
+                //deleteItemUI();
+                int selectedRow = menuList.getSelectedRow();
+                if(selectedRow != -1)
+                {
+                    // remove selected row from the model
+                    String itemNumber = model.getValueAt(selectedRow, 0).toString();
+                    mc.deleteItem(itemNumber);
+                    model.removeRow(selectedRow);
+                    JOptionPane.showMessageDialog(null, "Selected row deleted successfully");
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Please select a row to delete");
+                }
             }
         });
     }
-    private void viewMenuUI() {
-        viewMenuFrame = new JFrame("View Menu");
-        viewMenuFrame.setResizable(false);
-        viewMenuFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        viewMenuFrame.setBounds(100, 100, 359, 369);
-        viewMenuFrame.getContentPane().setLayout(null);
-        viewMenuFrame.setVisible(true);
-    }
+
 
     private void updateItemUI()
     {
@@ -147,16 +176,23 @@ public class RestaurantManagerUI extends JFrame
         JTextField itemNumber3 = new JTextField();
         itemNumber3.setBounds(145, 114, 65, 31);
         itemNumber3.setFont(new Font("Serif", Font.PLAIN, 14));
+        String itemNumber =  model.getValueAt(selectedRow, 0).toString();
+        itemNumber3.setText(itemNumber);
+        itemNumber3.setEditable(false);
         updateFrame.getContentPane().add(itemNumber3);
 
         JTextField itemName3 = new JTextField();
         itemName3.setFont(new Font("Serif", Font.PLAIN, 14));
         itemName3.setBounds(145, 155, 65, 31);
+        String currItemName = model.getValueAt(selectedRow, 1).toString();
+        itemName3.setText(currItemName);
         updateFrame.getContentPane().add(itemName3);
 
         JTextField itemPrice3 = new JTextField();
         itemPrice3.setFont(new Font("Serif", Font.PLAIN, 14));
         itemPrice3.setBounds(145, 196, 65, 31);
+        String currItemPrice = model.getValueAt(selectedRow, 2).toString();
+        itemPrice3.setText(currItemPrice);
         updateFrame.getContentPane().add(itemPrice3);
 
         JButton updateButton1 = new JButton("Update");
@@ -167,31 +203,20 @@ public class RestaurantManagerUI extends JFrame
         {
             if (e.getSource () == updateButton1)
             {
-                String itemNumber00 = itemNumber3.getText();
-                String itemName00 = itemName3.getText();
-                Double itemPrice00 = Double.valueOf(itemPrice3.getText());
+                String itemName = itemName3.getText();
+                double itemPrice = Double.parseDouble(itemPrice3.getText());
+                mc.updateItem(itemNumber, itemName, itemPrice);
+                model.fireTableDataChanged();
 
-                ManagerController mc = new ManagerController();
-                mc.validateUpdate(itemNumber00, itemName00, itemPrice00);
+                JOptionPane.showMessageDialog(null, "Selected row updated successfully");
+
             }
         });
+        model.fireTableDataChanged();
     }
 
-    private void deleteItemUI()
+    private void createItemUI()
     {
-        deleteFrame = new JFrame("Delete");
-        deleteFrame.setResizable(false);
-        deleteFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        deleteFrame.setBounds(100, 100, 359, 369);
-        deleteFrame.getContentPane().setLayout(null);
-        deleteFrame.setVisible(true);
-
-        JButton deleteButton1 = new JButton("Delete");
-        deleteButton1.setBounds(125, 216, 150, 20);
-        deleteFrame.getContentPane().add(deleteButton1);
-    }
-
-    private void createItemUI() {
         createFrame = new JFrame("Create new items");
         createFrame.setResizable(false);
         createFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -199,20 +224,20 @@ public class RestaurantManagerUI extends JFrame
         createFrame.getContentPane().setLayout(null);
         createFrame.setVisible(true);
 
-        JLabel itemNumber = new JLabel("Item No:");
-        itemNumber.setBounds(70, 114, 65, 31);
-        itemNumber.setFont(new Font("Serif", Font.PLAIN, 14));
-        createFrame.getContentPane().add(itemNumber);
+        JLabel itemNumberr = new JLabel("Item No:");
+        itemNumberr.setBounds(70, 114, 65, 31);
+        itemNumberr.setFont(new Font("Serif", Font.PLAIN, 14));
+        createFrame.getContentPane().add(itemNumberr);
 
-        JLabel itemName = new JLabel("Item Name:");
-        itemName.setFont(new Font("Serif", Font.PLAIN, 14));
-        itemName.setBounds(70, 155, 65, 31);
-        createFrame.getContentPane().add(itemName);
+        JLabel itemNamee = new JLabel("Item Name:");
+        itemNamee.setFont(new Font("Serif", Font.PLAIN, 14));
+        itemNamee.setBounds(70, 155, 65, 31);
+        createFrame.getContentPane().add(itemNamee);
 
-        JLabel itemPrice = new JLabel("Item Price:");
-        itemPrice.setFont(new Font("Serif", Font.PLAIN, 14));
-        itemPrice.setBounds(70, 196, 65, 31);
-        createFrame.getContentPane().add(itemPrice);
+        JLabel itemPricee = new JLabel("Item Price:");
+        itemPricee.setFont(new Font("Serif", Font.PLAIN, 14));
+        itemPricee.setBounds(70, 196, 65, 31);
+        createFrame.getContentPane().add(itemPricee);
 
         JTextField itemNumber1 = new JTextField();
         itemNumber1.setBounds(145, 114, 65, 31);
@@ -237,37 +262,24 @@ public class RestaurantManagerUI extends JFrame
         {
             if (e.getSource () == addButton)
             {
-                String itemNumber0 = itemNumber1.getText();
-                String itemName0 = itemName1.getText();
-                Double itemPrice0 = Double.valueOf(itemPrice1.getText());
+                String itemNumber = itemNumber1.getText();
+                String itemName = itemName1.getText();
+                Double itemPrice = Double.valueOf(itemPrice1.getText());
 
-                ManagerController mc = new ManagerController();
-                mc.ifExist(itemNumber0, itemName0, itemPrice0);
+                //mc.ifExist(itemNumber, itemName, itemPrice);
+                if(mc.ifExist(itemNumber, itemName, itemPrice))
+                {
+                    JOptionPane.showMessageDialog(null, "Successfully added");
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Item already exists");
+                }
+
             }
+
         });
+
     }
 
-   /* private void displayWarning()
-    {
-        displayWarningFrame = new JFrame("Delete");
-        displayWarningFrame.setResizable(false);
-        displayWarningFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        displayWarningFrame.setBounds(100, 100, 359, 369);
-        displayWarningFrame.getContentPane().setLayout(null);
-    }
-
-    //main method
-
-    public static void main(String[] args) {
-            //new LoginUI();
-            try {
-                //create instance of the displayPage
-                new RestaurantManagerUI();
-
-            } catch (Exception e) {
-                //handle exception
-                JOptionPane.showMessageDialog(null, e.getMessage());
-            }
-
-        }*/
 }
