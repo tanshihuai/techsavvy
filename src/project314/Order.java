@@ -35,7 +35,7 @@ public class Order {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            c = DriverManager.getConnection("jdbc:mysql://localhost/project314", "root", "abdulhameed13");
+            c = DriverManager.getConnection("jdbc:mysql://localhost/project314", "root", "mysql123");
             /*ps = c.prepareStatement("Select * from menu");
             rs = ps.executeQuery();*/
             Statement st = c.createStatement();
