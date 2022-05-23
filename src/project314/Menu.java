@@ -29,7 +29,7 @@ public class Menu
         this.itemPrice = itemPrice;
     }
 
-    public void getItem(JTable menuList)
+    public void getItem(JTable managerMenuList)
     {
         Connection c = null;
         PreparedStatement ps = null;
@@ -40,8 +40,6 @@ public class Menu
         {
             Class.forName("com.mysql.cj.jdbc.Driver");
             c = DriverManager.getConnection("jdbc:mysql://localhost/project314","root","mysql123");
-            /*ps = c.prepareStatement("Select * from menu");
-            rs = ps.executeQuery();*/
             Statement st = c.createStatement();
             String sql = "Select * from menu";
             rs = st.executeQuery(sql);
@@ -54,7 +52,7 @@ public class Menu
 
                 //new Menu(itemNumber, itemName,itemPrice);
                 String values[] = {itemNumber, itemName, itemPrice};
-                DefaultTableModel dtm = (DefaultTableModel) menuList.getModel();
+                DefaultTableModel dtm = (DefaultTableModel) managerMenuList.getModel();
                 dtm.addRow(values);
             }
 
@@ -67,7 +65,6 @@ public class Menu
         {
             ex.printStackTrace();
         }
-
     }
 
     public void updateItem(String itemNumber, String itemName, Double itemPrice)
@@ -79,11 +76,6 @@ public class Menu
         {
             Class.forName("com.mysql.cj.jdbc.Driver");
             c = DriverManager.getConnection("jdbc:mysql://localhost/project314","root","mysql123");
-//            ps = c.prepareStatement("UPDATE menu SET (itemName, itemPrice) = (?,?) WHERE itemNumber = ?");
-//            ps.setString(1, itemName);
-//            ps.setDouble(2, itemPrice);
-//            ps.setString(3, itemNumber);
-//            ps.executeUpdate();
             Statement st = c.createStatement();
             String sql = "Update menu set itemName = '"+ itemName + "', itemPrice = "+ itemPrice + " WHERE itemNumber ='"+ itemNumber + "'";
             st.execute(sql);
@@ -108,43 +100,8 @@ public class Menu
                 e1.printStackTrace();
             }
         }
-        //return false;
     }
-
-    /*private boolean viewItem(String itemNumber)
-    {
-        Connection c = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try
-        {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            c = DriverManager.getConnection("jdbc:mysql://localhost/project314","root","mysql123");
-            ps = c.prepareStatement("Select itemName from menu where itemNumber = ?");
-            ps.setString(1, itemNumber);
-            rs = ps.executeQuery();
-
-            String columns[] = { "itemNumber", "itemName", "itemPrice" };
-            String data[][] = new String[8][3];
-
-            int i = 0;
-            while(rs.next())
-            {
-                this.itemName = rs.getString(1);
-            };
-        }
-        catch (SQLException ex)
-        {
-            ex.printStackTrace();
-        }
-        catch (ClassNotFoundException ex)
-        {
-            ex.printStackTrace();
-        }
-        return false;
-
-    }*/
-
+    
     public boolean createItem(String itemNumber, String itemName, double itemPrice)
     {
         Connection c = null;
@@ -155,14 +112,9 @@ public class Menu
         {
             Class.forName("com.mysql.cj.jdbc.Driver");
             c = DriverManager.getConnection("jdbc:mysql://localhost/project314","root","mysql123");
-//            ps = c.prepareStatement("INSERT INTO menu (itemNumber, itemName, itemPrice) VALUES (?, ?, ?)");
-//            ps.setString(1, itemNumber);
-//            ps.setString(2, itemName);
-//            ps.setDouble(3, itemPrice);
             Statement st = c.createStatement();
             String sql = "insert into menu values('"+ itemNumber + "','"+ itemName + "','" + itemPrice + "');";
             st.execute(sql);
-            //ps.executeUpdate();
             input = true;
         }
         catch (SQLException ex)
@@ -187,8 +139,6 @@ public class Menu
         }
 
         return input;
-
-
     }
 
     public void deleteItem(String itemNumber)
@@ -205,12 +155,6 @@ public class Menu
             Statement st = c.createStatement();
             String sql = "DELETE FROM menu WHERE itemNumber ='"+ itemNumber + "'";
             st.execute(sql);
-//            ps.setString(1, itemNumber);
-            //ps.setString(2, itemName);
-            //ps.setDouble(2, itemPrice);
-//            int result = ps.executeUpdate();
-            //ps.executeUpdate();
-//            System.out.println(rs.next());
         }
         catch (SQLException ex)
         {
@@ -230,6 +174,5 @@ public class Menu
                 throwables.printStackTrace();
             }
         }
-        //return false;
     }
 }

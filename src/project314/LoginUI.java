@@ -51,7 +51,6 @@ public class LoginUI extends JFrame
     }
 
     private void displayPage() {
-        //the landing page details
         loginFrame = new JFrame("Login");
         loginFrame.setResizable(false);
         loginFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -131,7 +130,6 @@ public class LoginUI extends JFrame
     }
 
     private void customerDetailsFrame() {
-        //to enter customer email add and table number
         customerDetailsFrame = new JFrame("Customers Detail");
         customerDetailsFrame.setResizable(false);
         customerDetailsFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

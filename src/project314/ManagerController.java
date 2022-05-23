@@ -7,11 +7,10 @@ import java.sql.SQLException;
 
 public class ManagerController
 {
-    public void getItem(JTable menuList)
+    public void getItem(JTable managerMenuList)
     {
-        new Menu().getItem(menuList);
+        new Menu().getItem(managerMenuList);
     }
-
 
     public boolean ifExist(String itemNumber, String itemName, double itemPrice)
     {
@@ -19,30 +18,12 @@ public class ManagerController
         return input;
     }
 
-    /*public void ifExist(String itemNumber, String itemName, double itemPrice)
-    {
-//        new Menu().createItem(itemNumber, itemName, itemPrice);
-//        itemNumber = "";
-//        itemName = "";
-//        itemPrice = 0;
-//
-//        if (itemNumber == "")
-//        {
-//            return true;
-//        }
-//        return false;
-//        boolean input = new Menu().createItem(itemNumber, itemName, itemPrice);
-//        return input;
-        new Menu().createItem(itemNumber, itemName, itemPrice);
-
-    }*/
-
     public void deleteItem(String itemNumber)
     {
         new Menu().deleteItem(itemNumber);
     }
 
-    public void updateItem(String itemNumber, String itemName, Double itemPrice)
+    public void updateItem(String itemNumber, String itemName, double itemPrice)
     {
         new Menu().updateItem(itemNumber, itemName, itemPrice);
     }
