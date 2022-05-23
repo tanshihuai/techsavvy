@@ -1,4 +1,5 @@
 package project314;
+import javax.swing.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -6,10 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.*;
 
-// hello bro
-//hi bro sup
 public class Users
-
 {
     //variables
     private String username;
@@ -126,6 +124,7 @@ public class Users
         Connection c = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
+
         try
         {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -171,4 +170,42 @@ public class Users
         return role;
     }
 
+    public boolean newEmail(String email)
+    {
+        Connection c = null;
+        PreparedStatement ps = null;
+        boolean input = false;
+
+        try
+        {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            c = DriverManager.getConnection("jdbc:mysql://localhost/project314","root","mysql123");
+
+            Statement st = c.createStatement();
+            String sql = "insert into customers values('"+ email + "');";
+            st.executeUpdate(sql);
+            input = true;
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+            input = false;
+        }
+        catch (ClassNotFoundException ex)
+        {
+            ex.printStackTrace();
+        }
+        finally
+        {
+            try
+            {
+                c.close();
+            }
+            catch (SQLException throwables)
+            {
+                throwables.printStackTrace();
+            }
+        }
+        return input;
+    }
 }

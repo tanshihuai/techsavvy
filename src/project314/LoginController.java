@@ -14,11 +14,11 @@ public class LoginController
         return input;
     }
 
-   public boolean validateLogin(String username, String password)
-   {
+    public boolean validateLogin(String username, String password)
+    {
         boolean input = new Users().login(username, password);
-               return input;
-   }
+        return input;
+    }
 
     public String checkRole(String username)
     {
@@ -26,9 +26,11 @@ public class LoginController
         return role;
     }
 
-    public void getItem(JTable menuList)
+    public boolean ifExist(String email)
     {
-        new Menu().getItem(menuList);
+        boolean input = new Users().newEmail(email);
+        return input;
     }
+
 
 }
