@@ -65,6 +65,7 @@ public class Menu
         {
             ex.printStackTrace();
         }
+
     }
 
     public void updateItem(String itemNumber, String itemName, Double itemPrice)
@@ -100,8 +101,9 @@ public class Menu
                 e1.printStackTrace();
             }
         }
+
     }
-    
+
     public boolean createItem(String itemNumber, String itemName, double itemPrice)
     {
         Connection c = null;
@@ -115,6 +117,7 @@ public class Menu
             Statement st = c.createStatement();
             String sql = "insert into menu values('"+ itemNumber + "','"+ itemName + "','" + itemPrice + "');";
             st.execute(sql);
+            //ps.executeUpdate();
             input = true;
         }
         catch (SQLException ex)

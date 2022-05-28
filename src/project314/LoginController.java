@@ -31,6 +31,4 @@ public class LoginController
         boolean input = new Users().newEmail(email);
         return input;
     }
-
-
 }

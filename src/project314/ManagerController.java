@@ -12,6 +12,7 @@ public class ManagerController
         new Menu().getItem(managerMenuList);
     }
 
+
     public boolean ifExist(String itemNumber, String itemName, double itemPrice)
     {
         boolean input = new Menu().createItem(itemNumber, itemName, itemPrice);

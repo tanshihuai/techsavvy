@@ -15,57 +15,24 @@ public class RestaurantManagerUI extends JFrame
 {
     //variables
     JFrame managerFrame;
-
     JFrame managerUpdateFrame;
-
     JFrame managerCreateFrame;
 
+    JFrame managerViewMenuFrame;
+    JFrame managerDeleteFrame;
+    JButton managerViewButton;
     JButton managerCreateButton;
-
     JButton managerUpdateButton;
-
     JButton managerDeleteButton;
-
     JButton managerLogoutButton;
-
     JTable managerMenuList;
 
+    JTextField managerSearchField;
     DefaultTableModel managerModel;
 
     private int managerSelectedRow;
-
-    JScrollPane scrollPaneManager;
     ManagerController mc;
-
     private String username;
-
-    JLabel uItemNo;
-
-    JLabel uItemName;
-
-    JLabel uItemPrice;
-
-    JTextField updateItemNo;
-
-    JTextField updateItemName;
-
-    JTextField updateItemPrice;
-
-    JButton menuUpdate;
-
-    JLabel cItemNo;
-
-    JLabel cItemName;
-
-    JLabel cItemPrice;
-
-    JTextField createItemNo;
-
-    JTextField createItemName;
-
-    JTextField createItemPrice;
-
-    JButton addNewItem;
 
     public RestaurantManagerUI()
     {
@@ -79,31 +46,36 @@ public class RestaurantManagerUI extends JFrame
         managerFrame.setResizable(false);
         managerFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         managerFrame.setSize(700,500);
+        managerFrame.getContentPane().setBackground(Color.darkGray);
         managerFrame.getContentPane().setLayout(null);
         managerFrame.setVisible(true);
 
         managerCreateButton = new JButton("Create new items");
         managerCreateButton.setBounds(70, 80, 150, 35);
-        managerCreateButton.setBorder(BorderFactory.createLineBorder(Color.RED));
+        managerCreateButton.setBorder(BorderFactory.createLoweredBevelBorder());
         managerCreateButton.setBackground(Color.WHITE);
+        managerCreateButton.setForeground(Color.BLACK);
         managerFrame.getContentPane().add(managerCreateButton);
 
         managerUpdateButton = new JButton("Update");
         managerUpdateButton.setBounds(70, 120, 150, 35);
-        managerUpdateButton.setBorder(BorderFactory.createLineBorder(Color.RED));
+        managerUpdateButton.setBorder(BorderFactory.createLoweredBevelBorder());
         managerUpdateButton.setBackground(Color.WHITE);
+        managerUpdateButton.setForeground(Color.BLACK);
         managerFrame.getContentPane().add(managerUpdateButton);
 
-        managerDeleteButton = new JButton("Delete");
+        managerDeleteButton = new JButton("Suspend");
         managerDeleteButton.setBounds(70, 160, 150, 35);
-        managerDeleteButton.setBorder(BorderFactory.createLineBorder(Color.RED));
+        managerDeleteButton.setBorder(BorderFactory.createLoweredBevelBorder());
         managerDeleteButton.setBackground(Color.WHITE);
+        managerDeleteButton.setForeground(Color.BLACK);
         managerFrame.getContentPane().add(managerDeleteButton);
 
         managerLogoutButton = new JButton("Logout");
         managerLogoutButton.setBounds(70, 200, 150, 35);
-        managerLogoutButton.setBorder(BorderFactory.createLineBorder(Color.RED));
+        managerLogoutButton.setBorder(BorderFactory.createLoweredBevelBorder());
         managerLogoutButton.setBackground(Color.WHITE);
+        managerLogoutButton.setForeground(Color.BLACK);
         managerFrame.getContentPane().add(managerLogoutButton);
 
         managerLogoutButton.addActionListener (e ->
@@ -117,19 +89,22 @@ public class RestaurantManagerUI extends JFrame
 
         //table
         managerModel = new DefaultTableModel();
-        managerModel.addColumn("itemNumber");
-        managerModel.addColumn("itemName");
-        managerModel.addColumn("itemPrice");
+        managerModel.addColumn("Item Number");
+        managerModel.addColumn("Item Name");
+        managerModel.addColumn("Item Price");
         managerMenuList = new JTable(managerModel);
-        managerMenuList.setBounds(250,80,350,200);
+        managerMenuList.setBounds(250,80,380,240);
         managerMenuList.setRowSelectionAllowed(true);
         managerMenuList.setBackground(Color.WHITE);
-        scrollPaneManager = new JScrollPane();
-        scrollPaneManager.setBounds(250,80,350,200);
+        managerMenuList.setForeground(Color.BLACK);
+        JScrollPane scrollPaneManager = new JScrollPane();
+        scrollPaneManager.setBounds(250,80,380,240);
         managerFrame.getContentPane().add(scrollPaneManager);
         mc = new ManagerController();
         mc.getItem(managerMenuList);
         scrollPaneManager.setViewportView(managerMenuList);
+        scrollPaneManager.setBackground(Color.WHITE);
+        scrollPaneManager.setForeground(Color.BLACK);
 
         //actionListener for the buttons
         managerCreateButton.addActionListener (e ->
@@ -181,52 +156,140 @@ public class RestaurantManagerUI extends JFrame
         });
     }
 
+
+    private void updateItemUI()
+    {
+        managerUpdateFrame = new JFrame("Update");
+        managerUpdateFrame.setResizable(false);
+        managerUpdateFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        managerUpdateFrame.setSize(700, 500);
+        managerUpdateFrame.getContentPane().setBackground(Color.darkGray);
+        managerUpdateFrame.getContentPane().setLayout(null);
+        managerUpdateFrame.setVisible(true);
+
+        JLabel uItemNo = new JLabel("Item No:");
+        uItemNo.setBounds(180, 90, 120, 31);
+        uItemNo.setFont(new Font("Serif", Font.BOLD, 14));
+        uItemNo.setForeground(Color.WHITE);
+        managerUpdateFrame.getContentPane().add(uItemNo);
+
+        JLabel uItemName = new JLabel("Item Name:");
+        uItemName.setFont(new Font("Serif", Font.BOLD, 14));
+        uItemName.setBounds(180, 130, 120, 31);
+        uItemName.setForeground(Color.WHITE);
+        managerUpdateFrame.getContentPane().add(uItemName);
+
+        JLabel uItemPrice = new JLabel("Item Price:");
+        uItemPrice.setFont(new Font("Serif", Font.BOLD, 14));
+        uItemPrice.setBounds(180, 170, 120, 31);
+        uItemPrice.setForeground(Color.WHITE);
+        managerUpdateFrame.getContentPane().add(uItemPrice);
+
+        JTextField updateItemNo = new JTextField();
+        updateItemNo.setBounds(260, 90, 200, 31);
+        updateItemNo.setFont(new Font("Serif", Font.PLAIN, 14));
+        updateItemNo.setBorder(BorderFactory.createLoweredBevelBorder());
+        String itemNumber =  managerModel.getValueAt(managerSelectedRow, 0).toString();
+        updateItemNo.setText(itemNumber);
+        updateItemNo.setEditable(false);
+        managerUpdateFrame.getContentPane().add(updateItemNo);
+
+        JTextField updateItemName = new JTextField();
+        updateItemName.setFont(new Font("Serif", Font.PLAIN, 14));
+        updateItemName.setBounds(260, 130, 200, 31);
+        updateItemName.setBorder(BorderFactory.createLoweredBevelBorder());
+        String currItemName = managerModel.getValueAt(managerSelectedRow, 1).toString();
+        updateItemName.setText(currItemName);
+        managerUpdateFrame.getContentPane().add(updateItemName);
+
+        JTextField updateItemPrice = new JTextField();
+        updateItemPrice.setFont(new Font("Serif", Font.PLAIN, 14));
+        updateItemPrice.setBounds(260, 170, 200, 31);
+        updateItemPrice.setBorder(BorderFactory.createLoweredBevelBorder());
+        String currItemPrice = managerModel.getValueAt(managerSelectedRow, 2).toString();
+        updateItemPrice.setText(currItemPrice);
+        managerUpdateFrame.getContentPane().add(updateItemPrice);
+
+        JButton menuUpdate = new JButton("Update");
+        menuUpdate.setBounds(220, 240, 150, 35);
+        menuUpdate.setBorder(BorderFactory.createLoweredBevelBorder());
+        menuUpdate.setBackground(Color.WHITE);
+        menuUpdate.setForeground(Color.BLACK);
+        managerUpdateFrame.getContentPane().add(menuUpdate);
+
+        menuUpdate.addActionListener (e ->
+        {
+            if (e.getSource () == menuUpdate)
+            {
+                String itemName = updateItemName.getText();
+                double itemPrice = Double.parseDouble(updateItemPrice.getText());
+                if (itemName.isBlank())
+                {
+                    //boolean input = false;
+                    JOptionPane.showMessageDialog(null, "Please update the item name");
+                }
+                else{
+                    mc.updateItem(itemNumber, itemName, itemPrice);
+                    managerUpdateFrame.dispose();
+                    menuDisplayPage();
+                    JOptionPane.showMessageDialog(null, "Selected row updated successfully");
+                }
+            }
+        });
+        managerModel.fireTableDataChanged();
+    }
+
     private void createItemUI()
     {
         managerCreateFrame = new JFrame("Create new items");
         managerCreateFrame.setResizable(false);
         managerCreateFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        managerCreateFrame.setBounds(100, 100, 359, 369);
+        managerCreateFrame.setSize(700, 500);
+        managerCreateFrame.getContentPane().setBackground(Color.darkGray);
         managerCreateFrame.getContentPane().setLayout(null);
         managerCreateFrame.setVisible(true);
 
-        cItemNo = new JLabel("Item No:");
-        cItemNo.setBounds(70, 90, 90, 31);
+        JLabel cItemNo = new JLabel("Item No:");
+        cItemNo.setBounds(180, 90, 120, 31);
         cItemNo.setFont(new Font("Serif", Font.BOLD, 14));
+        cItemNo.setForeground(Color.WHITE);
         managerCreateFrame.getContentPane().add(cItemNo);
 
-        cItemName = new JLabel("Item Name:");
+        JLabel cItemName = new JLabel("Item Name:");
         cItemName.setFont(new Font("Serif", Font.BOLD, 14));
-        cItemName.setBounds(70, 130, 90, 31);
+        cItemName.setBounds(180, 130, 120, 31);
+        cItemName.setForeground(Color.WHITE);
         managerCreateFrame.getContentPane().add(cItemName);
 
-        cItemPrice = new JLabel("Item Price:");
+        JLabel cItemPrice = new JLabel("Item Price:");
         cItemPrice.setFont(new Font("Serif", Font.BOLD, 14));
-        cItemPrice.setBounds(70, 170, 90, 31);
+        cItemPrice.setBounds(180, 170, 120, 31);
+        cItemPrice.setForeground(Color.WHITE);
         managerCreateFrame.getContentPane().add(cItemPrice);
 
-        createItemNo = new JTextField();
-        createItemNo.setBounds(145, 90, 65, 31);
+        JTextField createItemNo = new JTextField();
+        createItemNo.setBounds(260, 90, 200, 31);
         createItemNo.setFont(new Font("Serif", Font.PLAIN, 14));
-        createItemNo.setBorder(BorderFactory.createLineBorder(Color.RED));
+        createItemNo.setBorder(BorderFactory.createLoweredBevelBorder());
         managerCreateFrame.getContentPane().add(createItemNo);
 
-        createItemName = new JTextField();
+        JTextField createItemName = new JTextField();
         createItemName.setFont(new Font("Serif", Font.PLAIN, 14));
-        createItemName.setBorder(BorderFactory.createLineBorder(Color.RED));
-        createItemName.setBounds(145, 130, 65, 31);
+        createItemName.setBorder(BorderFactory.createLoweredBevelBorder());
+        createItemName.setBounds(260, 130, 200, 31);
         managerCreateFrame.getContentPane().add(createItemName);
 
-        createItemPrice = new JTextField();
+        JTextField createItemPrice = new JTextField();
         createItemPrice.setFont(new Font("Serif", Font.PLAIN, 14));
-        createItemPrice.setBorder(BorderFactory.createLineBorder(Color.RED));
-        createItemPrice.setBounds(145, 170, 65, 31);
+        createItemPrice.setBorder(BorderFactory.createLoweredBevelBorder());
+        createItemPrice.setBounds(260, 170, 200, 31);
         managerCreateFrame.getContentPane().add(createItemPrice);
 
-        addNewItem = new JButton("Add");
-        addNewItem.setBounds(110, 216, 150, 35);
-        addNewItem.setBorder(BorderFactory.createLineBorder(Color.RED));
+        JButton addNewItem = new JButton("Add");
+        addNewItem.setBounds(220, 240, 150, 35);
+        addNewItem.setBorder(BorderFactory.createLoweredBevelBorder());
         addNewItem.setBackground(Color.WHITE);
+        addNewItem.setForeground(Color.BLACK);
         managerCreateFrame.getContentPane().add(addNewItem);
 
         addNewItem.addActionListener (e ->
@@ -253,83 +316,5 @@ public class RestaurantManagerUI extends JFrame
         });
 
     }
-
-    private void updateItemUI()
-    {
-        managerUpdateFrame = new JFrame("Update");
-        managerUpdateFrame.setResizable(false);
-        managerUpdateFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        managerUpdateFrame.setBounds(100, 100, 359, 369);
-        managerUpdateFrame.getContentPane().setLayout(null);
-        managerUpdateFrame.setVisible(true);
-
-        uItemNo = new JLabel("Item No:");
-        uItemNo.setBounds(70, 90, 90, 31);
-        uItemNo.setFont(new Font("Serif", Font.BOLD, 14));
-        managerUpdateFrame.getContentPane().add(uItemNo);
-
-        uItemName = new JLabel("Item Name:");
-        uItemName.setFont(new Font("Serif", Font.BOLD, 14));
-        uItemName.setBounds(70, 130, 90, 31);
-        managerUpdateFrame.getContentPane().add(uItemName);
-
-        uItemPrice = new JLabel("Item Price:");
-        uItemPrice.setFont(new Font("Serif", Font.BOLD, 14));
-        uItemPrice.setBounds(70, 170, 90, 31);
-        managerUpdateFrame.getContentPane().add(uItemPrice);
-
-        updateItemNo = new JTextField();
-        updateItemNo.setBounds(145, 90, 65, 31);
-        updateItemNo.setFont(new Font("Serif", Font.PLAIN, 14));
-        updateItemNo.setBorder(BorderFactory.createLineBorder(Color.RED));
-        String itemNumber =  managerModel.getValueAt(managerSelectedRow, 0).toString();
-        updateItemNo.setText(itemNumber);
-        updateItemNo.setEditable(false);
-        managerUpdateFrame.getContentPane().add(updateItemNo);
-
-        updateItemName = new JTextField();
-        updateItemName.setFont(new Font("Serif", Font.PLAIN, 14));
-        updateItemName.setBounds(145, 130, 65, 31);
-        updateItemName.setBorder(BorderFactory.createLineBorder(Color.RED));
-        String currItemName = managerModel.getValueAt(managerSelectedRow, 1).toString();
-        updateItemName.setText(currItemName);
-        managerUpdateFrame.getContentPane().add(updateItemName);
-
-        updateItemPrice = new JTextField();
-        updateItemPrice.setFont(new Font("Serif", Font.PLAIN, 14));
-        updateItemPrice.setBounds(145, 170, 65, 31);
-        updateItemPrice.setBorder(BorderFactory.createLineBorder(Color.RED));
-        String currItemPrice = managerModel.getValueAt(managerSelectedRow, 2).toString();
-        updateItemPrice.setText(currItemPrice);
-        managerUpdateFrame.getContentPane().add(updateItemPrice);
-
-        menuUpdate = new JButton("Update");
-        menuUpdate.setBounds(110, 216, 150, 35);
-        menuUpdate.setBorder(BorderFactory.createLineBorder(Color.RED));
-        menuUpdate.setBackground(Color.WHITE);
-        managerUpdateFrame.getContentPane().add(menuUpdate);
-
-        menuUpdate.addActionListener (e ->
-        {
-            if (e.getSource () == menuUpdate)
-            {
-                String itemName = updateItemName.getText();
-                double itemPrice = Double.parseDouble(updateItemPrice.getText());
-                if (itemName.isBlank())
-                {
-                    //boolean input = false;
-                    JOptionPane.showMessageDialog(null, "Please update the item name");
-                }
-                else{
-                    mc.updateItem(itemNumber, itemName, itemPrice);
-                    managerUpdateFrame.dispose();
-                    menuDisplayPage();
-                    JOptionPane.showMessageDialog(null, "Selected row updated successfully");
-                }
-            }
-        });
-        managerModel.fireTableDataChanged();
-    }
-
 
 }

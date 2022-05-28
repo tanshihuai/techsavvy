@@ -10,99 +10,90 @@ public class LoginUI extends JFrame
 {
     //variables
     JFrame loginFrame;
-
-    JLabel usernameLabel;
-
-    JLabel passwordLabel;
-
-    JLabel checkLogin;
-
     JButton loginButton;
-
-    JButton makeOrderButton;
-
+    JLabel userLabel;
+    JLabel passLabel;
+    JLabel check;
     JTextField usernameField;
-
     JPasswordField passwordField;
-
     JFrame customerDetailsFrame;
-
     JTextField emailField;
-
     JTextField tableNoField;
 
-    JLabel emailLabel;
+    //LoginController lc;
 
-    JLabel tableNoLabel;
-
-    JButton loginContinueButton;
-
-    LoginController lc;
 
     //main method
     public static void main(String[] args)
     {
         new LoginUI();
-    }
 
+    }
     public LoginUI()
     {
         displayPage();
     }
 
-    private void displayPage() {
+    //method to display the login page
+    private void displayPage()
+    {
         loginFrame = new JFrame("Login");
         loginFrame.setResizable(false);
         loginFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        loginFrame.setSize(700, 500);
+        loginFrame.setSize(700,500);
         loginFrame.getContentPane().setLayout(null);
-        loginFrame.setContentPane(new JLabel(new ImageIcon("C:\\Users\\vimal\\Desktop\\back.jpg")));
+        loginFrame.setContentPane(new JLabel(new ImageIcon("C:\\Users\\abdul\\Documents\\techsavvy2\\restaurant.jpg")));
 
-        usernameLabel = new JLabel("Username:");
+        JLabel usernameLabel = new JLabel("Username:");
         usernameLabel.setBounds(200, 114, 100, 35);
         usernameLabel.setFont(new Font("Serif", Font.BOLD, 18));
+        usernameLabel.setForeground(Color.WHITE);
         loginFrame.getContentPane().add(usernameLabel);
 
-        passwordLabel = new JLabel("Password:");
+        JLabel passwordLabel = new JLabel("Password:");
         passwordLabel.setBounds(200, 155, 80, 35);
         passwordLabel.setFont(new Font("Serif", Font.BOLD, 18));
+        passwordLabel.setForeground(Color.WHITE);
         loginFrame.getContentPane().add(passwordLabel);
 
         usernameField = new JTextField();
         usernameField.setBounds(290, 121, 150, 30);
-        usernameField.setBorder(BorderFactory.createLineBorder(Color.RED));
+        usernameField.setBorder(BorderFactory.createLoweredBevelBorder());
         loginFrame.getContentPane().add(usernameField);
         usernameField.setColumns(10);
 
         passwordField = new JPasswordField();
         passwordField.setBounds(290, 162, 150, 30);
-        passwordField.setBorder(BorderFactory.createLineBorder(Color.RED));
+        passwordField.setBorder(BorderFactory.createLoweredBevelBorder());
         loginFrame.getContentPane().add(passwordField);
 
-        loginButton = new JButton("Login");
+        JButton loginButton = new JButton("Login");
         loginButton.setBounds(240, 230, 150, 35);
-        loginButton.setBorder(BorderFactory.createLineBorder(Color.RED));
+        loginButton.setBorder(BorderFactory.createLoweredBevelBorder());
         loginButton.setBackground(Color.WHITE);
+        loginButton.setForeground(Color.BLACK);
         loginFrame.getContentPane().add(loginButton);
 
-        makeOrderButton = new JButton("Make Order");
+        JButton makeOrderButton = new JButton ("Make Order");
         makeOrderButton.setBounds(240, 280, 150, 35);
-        makeOrderButton.setBorder(BorderFactory.createLineBorder(Color.RED));
+        makeOrderButton.setBorder(BorderFactory.createLoweredBevelBorder());
         makeOrderButton.setBackground(Color.WHITE);
+        makeOrderButton.setForeground(Color.BLACK);
         loginFrame.getContentPane().add(makeOrderButton);
 
-        makeOrderButton.addActionListener(e ->
+        makeOrderButton.addActionListener (e ->
         {
-            if (e.getSource() == makeOrderButton) {
+            if (e.getSource () == makeOrderButton)
+            {
                 customerDetailsFrame();
                 loginFrame.dispose();
             }
         });
 
         //to print error messages
-        checkLogin = new JLabel("");
+        JLabel checkLogin = new JLabel("");
         checkLogin.setFont(new Font("Serif", Font.PLAIN, 12));
-        checkLogin.setForeground(Color.RED);
+        checkLogin.setForeground(Color.WHITE);
         checkLogin.setBounds(10, 299, 323, 20);
         loginFrame.getContentPane().add(checkLogin);
         loginFrame.setVisible(true);
@@ -110,59 +101,74 @@ public class LoginUI extends JFrame
         //actionListener (onSubmit())
         loginButton.addActionListener(e ->
         {
-            if (e.getSource() == loginButton) {
+            if (e.getSource() == loginButton)
+            {
                 String username = usernameField.getText();
                 String password = String.valueOf(passwordField.getPassword());
 
                 //loginFailed()
-                lc = new LoginController();
-                if (!lc.isFilled(username, password)) {
+                LoginController lc = new LoginController();
+                if (!lc.isFilled(username, password))
+                {
                     checkLogin.setText("Please enter your Username/Password!");
-                } else if (!lc.validateLogin(username, password)) {
+                    checkLogin.setForeground(Color.WHITE);
+                    checkLogin.setFont(new Font("Serif", Font.BOLD, 18));
+                    checkLogin.setBounds(240, 320, 500, 35);
+                } else if (!lc.validateLogin(username, password))
+                {
                     checkLogin.setText("Invalid Username/Password entered.");
-                } else {
+                    checkLogin.setForeground(Color.WHITE);
+                    checkLogin.setFont(new Font("Serif", Font.BOLD, 18));
+                    checkLogin.setBounds(240, 320, 500, 35);
+                } else
+                {
                     //loginSuccess();
                     String role = lc.checkRole(username);
                     loginSuccess(role, username);
                 }
             }
         });
+
     }
 
     private void customerDetailsFrame() {
         customerDetailsFrame = new JFrame("Customers Detail");
         customerDetailsFrame.setResizable(false);
         customerDetailsFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        customerDetailsFrame.setBounds(100, 100, 359, 369);
+        customerDetailsFrame.setSize(700, 500);
+        customerDetailsFrame.getContentPane().setBackground(Color.darkGray);
         customerDetailsFrame.getContentPane().setLayout(null);
         customerDetailsFrame.setVisible(true);
 
-        emailLabel = new JLabel("Email:");
-        emailLabel.setBounds(70, 114, 65, 31);
-        emailLabel.setFont(new Font("Serif", Font.BOLD, 14));
+        JLabel emailLabel = new JLabel("Email:");
+        emailLabel.setBounds(200, 114, 100, 35);
+        emailLabel.setFont(new Font("Serif", Font.BOLD, 18));
+        emailLabel.setForeground(Color.WHITE);
         customerDetailsFrame.getContentPane().add(emailLabel);
 
-        tableNoLabel = new JLabel("Table Number:");
-        tableNoLabel.setBounds(70, 155, 80, 31);
-        tableNoLabel.setFont(new Font("Serif", Font.BOLD, 14));
+        JLabel tableNoLabel = new JLabel("Table No:");
+        tableNoLabel.setBounds(200, 155, 80, 35);
+        tableNoLabel.setFont(new Font("Serif", Font.BOLD, 18));
+        tableNoLabel.setForeground(Color.WHITE);
         customerDetailsFrame.getContentPane().add(tableNoLabel);
 
         emailField = new JTextField();
-        emailField.setBounds(145, 121, 150, 30);
-        emailField.setBorder(BorderFactory.createLineBorder(Color.RED));
+        emailField.setBounds(290, 121, 150, 30);
+        emailField.setBorder(BorderFactory.createLoweredBevelBorder());
         customerDetailsFrame.getContentPane().add(emailField);
         emailField.setColumns(10);
 
         tableNoField = new JTextField();
-        tableNoField.setBounds(145, 162, 150, 30);
-        tableNoField.setBorder(BorderFactory.createLineBorder(Color.RED));
+        tableNoField.setBounds(290, 162, 150, 30);
+        tableNoField.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         customerDetailsFrame.getContentPane().add(tableNoField);
         tableNoField.setColumns(10);
 
-        loginContinueButton = new JButton("Continue");
-        loginContinueButton.setBounds(97, 248, 150, 31);
-        loginContinueButton.setBorder(BorderFactory.createLineBorder(Color.RED));
+        JButton loginContinueButton = new JButton("Continue");
+        loginContinueButton.setBounds(240, 230, 150, 35);
+        loginContinueButton.setBorder(BorderFactory.createLoweredBevelBorder());
         loginContinueButton.setBackground(Color.WHITE);
+        loginContinueButton.setForeground(Color.BLACK);
         customerDetailsFrame.getContentPane().add(loginContinueButton);
 
         loginContinueButton.addActionListener (e ->
@@ -177,7 +183,7 @@ public class LoginUI extends JFrame
                     JOptionPane.showMessageDialog(null, "Please enter the table number");
                 }
                 else{
-                    lc = new LoginController();
+                    LoginController lc = new LoginController();
                     lc.ifExist(emailAdd);
                     new CustomerUI();
                     customerDetailsFrame.dispose();

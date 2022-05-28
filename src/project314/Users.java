@@ -124,7 +124,6 @@ public class Users
         Connection c = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-
         try
         {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -185,6 +184,8 @@ public class Users
             String sql = "insert into customers values('"+ email + "');";
             st.executeUpdate(sql);
             input = true;
+
+
         }
         catch (SQLException ex)
         {
@@ -208,4 +209,5 @@ public class Users
         }
         return input;
     }
+
 }

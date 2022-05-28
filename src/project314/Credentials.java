@@ -43,7 +43,7 @@ public class Credentials {
         try
         {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            c = DriverManager.getConnection("jdbc:mysql://localhost/project314","root","abdulhameed13");
+            c = DriverManager.getConnection("jdbc:mysql://localhost/project314","root","mysql123");
             Statement st = c.createStatement();
             String sql = "Select * from users";
             rs = st.executeQuery(sql);
@@ -58,7 +58,6 @@ public class Credentials {
                 String email = rs.getString("email");
                 String role = rs.getString("role");
 
-                //new Menu(itemNumber, itemName,itemPrice);
                 String values[] = {serialno, fname,lname,username,password,email,role };
                 DefaultTableModel dtm = (DefaultTableModel) userAdminUsersList.getModel();
                 dtm.addRow(values);
@@ -73,6 +72,7 @@ public class Credentials {
         {
             ex.printStackTrace();
         }
+
     }
 
     public boolean createUser(String serialno, String fname, String lname, String username, String password, String email, String role)
@@ -84,7 +84,7 @@ public class Credentials {
         try
         {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            c = DriverManager.getConnection("jdbc:mysql://localhost/project314","root","abdulhameed13");
+            c = DriverManager.getConnection("jdbc:mysql://localhost/project314","root","mysql123");
             Statement st = c.createStatement();
             String sql = "insert into users values('"+ serialno + "','"+ fname + "','"+ lname + "','" + username + "','"+ password + "','"+ email + "','" + role + "');";
             st.execute(sql);
@@ -119,7 +119,7 @@ public class Credentials {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            c = DriverManager.getConnection("jdbc:mysql://localhost/project314", "root", "abdulhameed13");
+            c = DriverManager.getConnection("jdbc:mysql://localhost/project314", "root", "mysql123");
             Statement st = c.createStatement();
             String sql = "Update users set username = '" + username + "', password = '" + password + "', email = '" + email + "', role = '" + role + "' WHERE serialno ='" + serialno + "'";
             st.execute(sql);
@@ -145,7 +145,7 @@ public class Credentials {
         try
         {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            c = DriverManager.getConnection("jdbc:mysql://localhost/project314","root","abdulhameed13");
+            c = DriverManager.getConnection("jdbc:mysql://localhost/project314","root","mysql123");
 
             Statement st = c.createStatement();
             String sql = "DELETE FROM users WHERE serialno ='"+ serialno + "'";
