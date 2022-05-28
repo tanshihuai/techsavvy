@@ -16,9 +16,9 @@ public class UserAdminController {
         return input;
     }
 
-    public void updateUser(String serailno, String fname, String lname, String username, String password, String email, String role)
+    public void updateUser(String serialno, String fname, String lname, String username, String password, String email, String role)
     {
-        new Credentials().updateUser(serailno, fname, lname, username, password, email, role);
+        new Credentials().updateUser(serialno, fname, lname, username, password, email, role);
     }
 
     public void deleteUser(String serialno)

@@ -132,8 +132,8 @@ public class UserAdminUI extends JFrame
                 if(selectedRow != -1)
                 {
                     // remove selected row from the model
-                    String username = credentialsModel.getValueAt(selectedRow, 0).toString();
-                    uac.deleteUser(username);
+                    String serialno = credentialsModel.getValueAt(selectedRow, 0).toString();
+                    uac.deleteUser(serialno);
                     credentialsModel.removeRow(selectedRow);
                     JOptionPane.showMessageDialog(null, "Selected row deleted successfully");
                 }
@@ -242,7 +242,7 @@ public class UserAdminUI extends JFrame
         {
             if (e.getSource () == addNewUser)
             {
-                String serailNo = createSerialNo.getText();
+                String serialno = createSerialNo.getText();
                 String fname = createFname.getText();
                 String lname = createLname.getText();
                 String username = createUsername.getText();
@@ -250,7 +250,7 @@ public class UserAdminUI extends JFrame
                 String email = createEmail.getText();
                 String role = createRole.getText();
 
-                if(uac.ifExist(serailNo, fname, lname, username, password, email, role))
+                if(uac.ifExist(serialno, fname, lname, username, password, email, role))
                 {
                     JOptionPane.showMessageDialog(null, "Successfully added");
                 }
@@ -261,7 +261,6 @@ public class UserAdminUI extends JFrame
                 userAdminCreateFrame.dispose();
                 userAdminDisplayPage();
             }
-
         });
     }
 
@@ -274,11 +273,11 @@ public class UserAdminUI extends JFrame
         userAdminUpdateFrame.getContentPane().setLayout(null);
         userAdminUpdateFrame.setVisible(true);
 
-        JLabel uSeraiNo = new JLabel("Serial No:");
-        uSeraiNo.setBounds(180, 40, 90, 31);
-        uSeraiNo.setFont(new Font("Serif", Font.BOLD, 14));
-        uSeraiNo.setForeground(Color.WHITE);
-        userAdminUpdateFrame.getContentPane().add(uSeraiNo);
+        JLabel uSerialNo = new JLabel("Serial No:");
+        uSerialNo.setBounds(180, 40, 90, 31);
+        uSerialNo.setFont(new Font("Serif", Font.BOLD, 14));
+        uSerialNo.setForeground(Color.WHITE);
+        userAdminUpdateFrame.getContentPane().add(uSerialNo);
 
         JLabel uFname = new JLabel("First Name:");
         uFname.setBounds(180, 80, 90, 31);
