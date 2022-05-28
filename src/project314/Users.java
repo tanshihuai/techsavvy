@@ -27,44 +27,6 @@ public class Users
         this.role = role;
     }
 
-    public String EnterUsername(String username)
-    {
-        return username;
-    }
-
-    public String EnterPassword(String password)
-    {
-        return password;
-    }
-
-    public String getPassword(String username)
-    {
-        Connection c = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try
-        {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            c = DriverManager.getConnection("jdbc:mysql://localhost/project314","root","mysql123");
-            ps = c.prepareStatement("Select password From users Where username = ?");
-            ps.setString(1, username);
-            rs = ps.executeQuery();
-
-            while(rs.next())
-            {
-                this.password = rs.getString(1);
-            };
-        }
-        catch (SQLException ex)
-        {
-            ex.printStackTrace();
-        }
-        catch (ClassNotFoundException ex)
-        {
-            ex.printStackTrace();
-        }
-        return this.password;
-    }
 
     public boolean login(String username, String password)
     {
