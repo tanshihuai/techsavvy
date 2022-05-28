@@ -11,8 +11,6 @@ public class Receipt
     private String itemNumber;
     private String itemName;
     private double itemPrice;
-
-    //private int OrderID;
     private int qty;
     private int orderID;
     private double totalAmount;
