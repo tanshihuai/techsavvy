@@ -68,7 +68,7 @@ public class Menu
 
     }
 
-    public void updateItem(String itemNumber, String itemName, Double itemPrice)
+    public void updateItem(String itemNumber, String itemName, double itemPrice)
     {
         Connection c = null;
         PreparedStatement ps = null;

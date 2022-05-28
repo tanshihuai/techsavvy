@@ -16,13 +16,8 @@ public class Order {
     private String itemNumber;
     private String itemName;
     private double itemPrice;
-
-    //private int OrderID;
     private int qty;
     private int orderID;
-
-    // gets all the items
-    private List orders;
 
     //default constructor
     public Order() {
