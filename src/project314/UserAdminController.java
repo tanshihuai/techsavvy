@@ -10,9 +10,9 @@ public class UserAdminController {
         new Credentials().getUsers(userAdminUsersList);
     }
 
-    public boolean ifExist(String serailno, String fname, String lname, String username, String password, String email, String role)
+    public boolean ifExist(String serialno, String fname, String lname, String username, String password, String email, String role)
     {
-        boolean input = new Credentials().createUser(serailno, fname, lname, username, password, email, role);
+        boolean input = new Credentials().createUser(serialno, fname, lname, username, password, email, role);
         return input;
     }
 

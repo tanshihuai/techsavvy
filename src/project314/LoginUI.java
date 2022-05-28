@@ -34,6 +34,16 @@ public class LoginUI extends JFrame
         displayPage();
     }
 
+    public boolean isFilled(String username, String password)
+    {
+        boolean input = true;
+        if (username.isBlank() || password.isBlank())
+        {
+            input = false;
+        }
+        return input;
+    }
+
     //method to display the login page
     private void displayPage()
     {
@@ -47,13 +57,13 @@ public class LoginUI extends JFrame
         JLabel usernameLabel = new JLabel("Username:");
         usernameLabel.setBounds(200, 114, 100, 35);
         usernameLabel.setFont(new Font("Serif", Font.BOLD, 18));
-        usernameLabel.setForeground(Color.WHITE);
+        usernameLabel.setForeground(Color.BLACK);
         loginFrame.getContentPane().add(usernameLabel);
 
         JLabel passwordLabel = new JLabel("Password:");
         passwordLabel.setBounds(200, 155, 80, 35);
         passwordLabel.setFont(new Font("Serif", Font.BOLD, 18));
-        passwordLabel.setForeground(Color.WHITE);
+        passwordLabel.setForeground(Color.BLACK);
         loginFrame.getContentPane().add(passwordLabel);
 
         usernameField = new JTextField();
@@ -93,7 +103,7 @@ public class LoginUI extends JFrame
         //to print error messages
         JLabel checkLogin = new JLabel("");
         checkLogin.setFont(new Font("Serif", Font.PLAIN, 12));
-        checkLogin.setForeground(Color.WHITE);
+        checkLogin.setForeground(Color.BLACK);
         checkLogin.setBounds(10, 299, 323, 20);
         loginFrame.getContentPane().add(checkLogin);
         loginFrame.setVisible(true);
@@ -108,16 +118,16 @@ public class LoginUI extends JFrame
 
                 //loginFailed()
                 LoginController lc = new LoginController();
-                if (!lc.isFilled(username, password))
+                if (!isFilled(username, password))
                 {
                     checkLogin.setText("Please enter your Username/Password!");
-                    checkLogin.setForeground(Color.WHITE);
+                    checkLogin.setForeground(Color.BLACK);
                     checkLogin.setFont(new Font("Serif", Font.BOLD, 18));
                     checkLogin.setBounds(240, 320, 500, 35);
                 } else if (!lc.validateLogin(username, password))
                 {
                     checkLogin.setText("Invalid Username/Password entered.");
-                    checkLogin.setForeground(Color.WHITE);
+                    checkLogin.setForeground(Color.BLACK);
                     checkLogin.setFont(new Font("Serif", Font.BOLD, 18));
                     checkLogin.setBounds(240, 320, 500, 35);
                 } else
@@ -128,7 +138,6 @@ public class LoginUI extends JFrame
                 }
             }
         });
-
     }
 
     private void customerDetailsFrame() {
