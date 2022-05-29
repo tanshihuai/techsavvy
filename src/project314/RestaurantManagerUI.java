@@ -20,7 +20,6 @@ public class RestaurantManagerUI extends JFrame
 
     JFrame managerViewMenuFrame;
     JFrame managerDeleteFrame;
-    JButton managerViewButton;
     JButton managerCreateButton;
     JButton managerUpdateButton;
     JButton managerDeleteButton;

@@ -69,41 +69,6 @@ public class Receipt
 
     }
 
-    public void getId(JTable viewOrders) {
-        Connection c = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
-
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            c = DriverManager.getConnection("jdbc:mysql://localhost/project314", "root", "mysql123");
-            Statement st = c.createStatement();
-            String sql = "SELECT * FROM receiptitems";
-            rs = st.executeQuery(sql);
-
-            while (rs.next()) {
-                this.receiptItemsID = Integer.parseInt(rs.getString("receiptItemsID"));
-                this.orderID = Integer.parseInt(rs.getString("orderID"));
-                this.itemNumber = rs.getString("itemNumber");
-                this.itemName = rs.getString("itemName");
-                this.itemPrice = Double.parseDouble(rs.getString("itemPrice"));
-                this.qty = Integer.parseInt(rs.getString("qty"));
-
-                String values[] = {String.valueOf(receiptItemsID), String.valueOf(orderID), itemNumber, itemName,
-                        String.valueOf(itemPrice), String.valueOf(qty)};
-                DefaultTableModel dtm = (DefaultTableModel) viewOrders.getModel();
-                dtm.addRow(values);
-            }
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
-        }
-
-    }
-
     public void deleteOrder(int orderID)
     {
         Connection c = null;

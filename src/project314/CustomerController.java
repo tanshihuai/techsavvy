@@ -1,9 +1,6 @@
 package project314;
 
 import javax.swing.*;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerController
@@ -18,9 +15,9 @@ public class CustomerController
         new Order().getOrder(foodCart);
     }
 
-    public void getPayment(JTable customerRecipetTable)
+    public void getPayment(JTable customerReceiptTable)
     {
-        new Order().getPayment(customerRecipetTable);
+        new Order().getPayment(customerReceiptTable);
     }
 
 
